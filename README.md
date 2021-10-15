@@ -6,7 +6,7 @@ Steps to run application:
 
 To see the swagger main page, enter the url localhost:3000/api
 
-POST BODY EXAMPLE:
+POST BODY EXAMPLE (localhost:3000/users) :
 
 {
     "email": "john@connor.com",
