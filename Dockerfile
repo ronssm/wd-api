@@ -1,10 +1,26 @@
+FROM node:14-alpine as builder
+
+ENV NODE_ENV build
+
+USER node
+
+WORKDIR /home/node
+
+COPY . /home/node
+
+RUN npm ci \
+    && npm run build \
+    && npm prune --production
+
 FROM node:14-alpine
 ENV NODE_ENV=production
-WORKDIR /usr/src/app
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm install --production --silent && mv node_modules ../
-COPY . .
-EXPOSE 3000
-RUN chown -R node /usr/src/app
 USER node
-CMD ["npm", "start"]
+WORKDIR /home/node
+
+COPY --from=builder /home/node/package*.json /home/node/
+COPY --from=builder /home/node/node_modules/ /home/node/node_modules/
+COPY --from=builder /home/node/dist/ /home/node/dist/
+
+EXPOSE 3000
+
+CMD ["node", "dist/main.js"]
