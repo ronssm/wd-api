@@ -4,13 +4,10 @@ import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb://mongoadmin:secret@localhost:27017?retryWrites=true&w=majority',
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      },
-    ),
+    MongooseModule.forRoot('mongodb://mongodb:27017/wdapi', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }),
     UsersModule,
   ],
   controllers: [],
